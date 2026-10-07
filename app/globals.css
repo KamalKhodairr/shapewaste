@@ -1,0 +1,187 @@
+/* shapewaste — global design tokens + reset
+   Canonical source: Home.dc.html
+   Do not introduce ad-hoc colours or type outside this system. */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── Surfaces ─────────────────────────────────────────────── */
+  --mineral:        #F8F5EF;          /* primary background — warm parchment */
+  --mineral-hover:  #EDE7DB;          /* row hover, section tint             */
+  --petrol:         #14201C;          /* dark "worth" panels + full sections  */
+
+  /* ── Text ─────────────────────────────────────────────────── */
+  --ink:            #17211D;          /* primary text + header/footer borders */
+  --forest:         #3A4742;          /* body copy — hero deck, lede          */
+  --muted-nav:      #6B6F6A;          /* nav links resting state              */
+  --muted-meta:     #6B6152;          /* corner labels, quiet metadata        */
+  --muted-dark:     #9DAAA4;          /* secondary text on petrol             */
+  --placeholder:    #B7AE9C;          /* empty / dim line accents             */
+
+  /* ── Accent (semantic, not decorative) ───────────────────── */
+  --brass:          #A9782E;          /* value accent — CTA hover, kicker num */
+  --copper:         #8C6F3E;          /* small brass text on mineral          */
+  --gold:           #C89A4A;          /* large figures on petrol panels       */
+  --rust:           #A8543C;          /* risk / loss / penalty signal only    */
+  --badge-green:    #3E7A4E;          /* "licensed" badge                     */
+
+  /* ── Hairlines ────────────────────────────────────────────── */
+  --line:           #C9BFAC;          /* standard hairline                    */
+  --line-dim:       #B7AE9C;          /* kicker line, dimmer dividers         */
+  --line-heavy:     #17211D;          /* header / footer borders              */
+  --line-petrol:    #3A4742;          /* hairlines on petrol backgrounds      */
+
+  /* ── Material spectrum — cool → warm ─────────────────────── */
+  --stream-cd:      #2F4A3F;          /* Construction & demolition            */
+  --stream-organic: #3E5C46;          /* Food & organic                       */
+  --stream-paper:   #6B7F5F;          /* Paper & cardboard                    */
+  --stream-plastic: #8A8A52;          /* Plastics                             */
+  --stream-ewaste:  #8C6F3E;          /* E-waste                              */
+  --stream-metal:   #A9782E;          /* Metals & aluminium                   */
+
+  /* ── Typography ───────────────────────────────────────────── */
+  --font-display:   'Playfair Display', Georgia, serif;
+  --font-sans:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:      'IBM Plex Mono', monospace;
+
+  /* ── Layout ───────────────────────────────────────────────── */
+  --max-w:  1180px;
+  --px:     clamp(24px, 5vw, 56px);
+
+  /* ── Animation curves ─────────────────────────────────────── */
+  --ease-reveal:    cubic-bezier(.16, .7, .3, 1);
+  --ease-underline: cubic-bezier(.2,  .7, .3, 1);
+}
+
+/* ── Reset ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--mineral);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+a { color: var(--ink); text-decoration: none; }
+
+::selection { background: var(--ink); color: var(--mineral); }
+
+img, video { display: block; max-width: 100%; }
+
+/* ── Typography classes ───────────────────────────────────────── */
+.disp {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -.01em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Navlink — underline-reveal on hover ──────────────────────── */
+.navlink {
+  position: relative;
+  font-size: 13.5px;
+  letter-spacing: .02em;
+  color: var(--muted-nav);
+  padding: 4px 0;
+  transition: color .18s;
+}
+.navlink:hover { color: var(--ink); }
+.navlink::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: -2px;
+  height: 1px;
+  background: var(--ink);
+  transition: right .24s var(--ease-underline);
+}
+.navlink:hover::after,
+.navlink.active::after { right: 0; }
+.navlink.active { color: var(--ink); }
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.btn-ink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  background: var(--ink);
+  color: var(--mineral);
+  border: 1px solid var(--ink);
+  padding: 15px 26px;
+  cursor: pointer;
+  transition: background .18s, color .18s, border-color .18s;
+}
+.btn-ink:hover { background: var(--brass); border-color: var(--brass); color: var(--mineral); }
+
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 15px 26px;
+  cursor: pointer;
+  transition: border-color .18s, color .18s;
+}
+.btn-line:hover { border-color: var(--ink); }
+
+/* ── Scroll-reveal ────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity  .85s var(--ease-reveal),
+    transform .85s var(--ease-reveal);
+}
+.reveal.in   { opacity: 1; transform: none; }
+.reveal.d1   { transition-delay: .1s; }
+.reveal.d2   { transition-delay: .2s; }
+.reveal.d3   { transition-delay: .3s; }
+
+/* ── Value axis grow bar ─────────────────────────────────────── */
+.grow {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s var(--ease-reveal);
+}
+.in .grow { transform: scaleX(1); }
+
+/* ── Accessibility ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .reveal    { opacity: 1 !important; transform: none !important; }
+  .grow      { transform: none !important; }
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* Input — hide number spinners */
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Details / summary — hide default marker */
+summary { list-style: none; cursor: pointer; }
+summary::-webkit-details-marker { display: none; }
+details[open] .caret { transform: rotate(90deg); }
+.caret { display: inline-block; transition: transform .18s ease; }
